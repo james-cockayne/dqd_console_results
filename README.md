@@ -17,7 +17,7 @@ A .NET console application that parses OHDSI Data Quality Dashboard `results.jso
 ### Run
 
 ```bash
-docker run --rm -v /path/to/results:/data ghcr.io/james-cockayne/dqd-console-results:latest /data/results.json
+docker run --rm -it -v /path/to/results:/data ghcr.io/james-cockayne/dqd-console-results:latest /data/results.json
 ```
 
 ### Run with suppressed tests
@@ -32,5 +32,5 @@ SUPPRESSED_TESTS=table_cdmtable_metadata,table_cdmtable_visit_occurrence
 Suppressed failures are listed with a SUPPRESSED status and do not cause a non-zero exit code.
 
 ```bash
-docker run --rm -v /path/to/results:/data -e SUPPRESSED_TESTS=table_cdmtable_metadata,table_cdmtable_visit_occurrence ghcr.io/james-cockayne/dqd-console-results:latest /data/results.json
+docker run --rm -it -v /path/to/results:/data -e SUPPRESSED_TESTS=table_cdmtable_metadata,table_cdmtable_visit_occurrence ghcr.io/james-cockayne/dqd-console-results:latest /data/results.json
 ```
