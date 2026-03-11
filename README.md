@@ -1,5 +1,7 @@
 # dqd_console_results
 
+[![Build and Test](https://github.com/james-cockayne/dqd_console_results/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/james-cockayne/dqd_console_results/actions/workflows/build-and-test.yml)
+
 A .NET console application that parses OHDSI Data Quality Dashboard `results.json` files and displays test outcomes in the terminal, styled after dbt's log output.
 
 ## Features
@@ -12,11 +14,14 @@ A .NET console application that parses OHDSI Data Quality Dashboard `results.jso
 
 ## Usage
 
-```
-DqdConsoleResults <path-to-results.json>
+### Run
+
+```bash
+docker run --rm -v /path/to/results:/data ghcr.io/james-cockayne/dqd-console-results:latest /data/results.json
 ```
 
-### Suppressing known failures
+### Run with suppressed tests
+
 
 Set the `SUPPRESSED_TESTS` environment variable to a comma-separated list of `checkId` values:
 
@@ -26,30 +31,6 @@ SUPPRESSED_TESTS=table_cdmtable_metadata,table_cdmtable_visit_occurrence DqdCons
 
 Suppressed failures are listed with a SUPPRESSED status and do not cause a non-zero exit code.
 
-## Docker
-
-### Build
-
 ```bash
-docker build -t dqd_console_results .
-```
-
-### Run
-
-```bash
-docker run --rm -v /path/to/results:/data dqd_console_results /data/results.json
-```
-
-### Run with suppressed tests
-
-```bash
-docker run --rm -v /path/to/results:/data -e SUPPRESSED_TESTS=table_cdmtable_metadata,table_cdmtable_visit_occurrence dqd_console_results /data/results.json
-```
-
-## Build from source
-
-```bash
-dotnet build
-dotnet test
-dotnet run --project src/DqdConsoleResults -- path/to/results.json
+docker run --rm -v /path/to/results:/data -e SUPPRESSED_TESTS=table_cdmtable_metadata,table_cdmtable_visit_occurrence ghcr.io/james-cockayne/dqd-console-results:latest /data/results.json
 ```
