@@ -26,7 +26,7 @@ docker run --rm -v /path/to/results:/data ghcr.io/james-cockayne/dqd-console-res
 Set the `SUPPRESSED_TESTS` environment variable to a comma-separated list of `checkId` values:
 
 ```
-SUPPRESSED_TESTS=table_cdmtable_metadata,table_cdmtable_visit_occurrence DqdConsoleResults results.json
+SUPPRESSED_TESTS=table_cdmtable_metadata,table_cdmtable_visit_occurrence
 ```
 
 Suppressed failures are listed with a SUPPRESSED status and do not cause a non-zero exit code.
