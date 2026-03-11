@@ -12,6 +12,10 @@ A .NET console application that parses OHDSI Data Quality Dashboard `results.jso
 - Supports suppressing known failures via environment variable
 - Returns a non-zero exit code if there are any non-suppressed failures
 
+## Example output
+
+![Example output](docs/example.png)
+
 ## Usage
 
 ### Run
