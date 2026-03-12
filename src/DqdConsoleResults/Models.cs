@@ -17,13 +17,13 @@ public class DqdResults
 public class CheckResult
 {
     [JsonProperty("numViolatedRows")]
-    public int NumViolatedRows { get; set; }
+    public long NumViolatedRows { get; set; }
 
     [JsonProperty("pctViolatedRows")]
     public double PctViolatedRows { get; set; }
 
     [JsonProperty("numDenominatorRows")]
-    public int NumDenominatorRows { get; set; }
+    public long NumDenominatorRows { get; set; }
 
     [JsonProperty("executionTime")]
     public string ExecutionTime { get; set; } = string.Empty;
