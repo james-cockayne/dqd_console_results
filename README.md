@@ -27,14 +27,14 @@ docker run --rm -it -v /path/to/results:/data ghcr.io/james-cockayne/dqd-console
 ### Run with suppressed tests
 
 
-Set the `SUPPRESSED_TESTS` environment variable to a comma-separated list of `checkId` values:
+Set the `SUPPRESSED_TESTS` environment variable to a pipe-separated list of `checkId` values:
 
 ```
-SUPPRESSED_TESTS=table_cdmtable_metadata,table_cdmtable_visit_occurrence
+SUPPRESSED_TESTS=table_cdmtable_metadata|table_cdmtable_visit_occurrence
 ```
 
 Suppressed failures are listed with a SUPPRESSED status and do not cause a non-zero exit code.
 
 ```bash
-docker run --rm -it -v /path/to/results:/data -e SUPPRESSED_TESTS=table_cdmtable_metadata,table_cdmtable_visit_occurrence ghcr.io/james-cockayne/dqd-console-results:latest /data/results.json
+docker run --rm -it -v /path/to/results:/data -e SUPPRESSED_TESTS=table_cdmtable_metadata|table_cdmtable_visit_occurrence ghcr.io/james-cockayne/dqd-console-results:latest /data/results.json
 ```

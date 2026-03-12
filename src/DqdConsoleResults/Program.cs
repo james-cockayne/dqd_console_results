@@ -12,7 +12,7 @@ public class Program
 
         var suppressedEnv = Environment.GetEnvironmentVariable("SUPPRESSED_TESTS") ?? string.Empty;
         var suppressedTests = new HashSet<string>(
-            suppressedEnv.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
+            suppressedEnv.Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
 
         string json = File.ReadAllText(args[0]);
         var dqdResults = DqdProcessor.Parse(json);
