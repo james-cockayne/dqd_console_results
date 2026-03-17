@@ -4,10 +4,11 @@ public static class ConsoleRenderer
 {
     private const int LineWidth = 120;
 
-    public static void Render(List<ProcessedResult> results)
+    public static void Render(List<ProcessedResult> results, HashSet<string> suppressedTests)
     {
         RenderTestList(results);
         RenderFailureDetails(results);
+        RenderSuppressedPassWarnings(results, suppressedTests);
     }
 
     private static readonly int MaxStatusLength = new[] { "SUCCESS", "FAIL", "SKIP", "SUPPRESSED" }.Max(s => s.Length);
@@ -48,6 +49,25 @@ public static class ConsoleRenderer
             WriteColoredText("FAIL", TestOutcome.Fail);
             Console.WriteLine($": {failure.CheckId}");
             Console.WriteLine(FormatSql(failure.QueryText));
+        }
+    }
+
+    private static void RenderSuppressedPassWarnings(List<ProcessedResult> results, HashSet<string> suppressedTests)
+    {
+        var suppressedPasses = results
+            .Where(r => r.Outcome == TestOutcome.Pass && suppressedTests.Contains(r.CheckId))
+            .ToList();
+
+        if (suppressedPasses.Count == 0)
+            return;
+
+        Console.WriteLine();
+        foreach (var result in suppressedPasses)
+        {
+            var original = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"Warning: {result.CheckId} is suppressed but passed. Consider removing it from the suppression list.");
+            Console.ForegroundColor = original;
         }
     }
 

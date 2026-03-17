@@ -18,7 +18,7 @@ public class Program
         var dqdResults = DqdProcessor.Parse(json);
         var processedResults = DqdProcessor.ProcessResults(dqdResults, suppressedTests);
 
-        ConsoleRenderer.Render(processedResults);
+        ConsoleRenderer.Render(processedResults, suppressedTests);
 
         return DqdProcessor.HasNonSuppressedFailures(processedResults) ? 1 : 0;
     }

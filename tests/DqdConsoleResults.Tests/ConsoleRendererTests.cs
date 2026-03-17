@@ -35,4 +35,79 @@ public class ConsoleRendererTests
     {
         Assert.Equal(expected, ConsoleRenderer.FormatStatus(outcome));
     }
+
+    [Fact]
+    public void Render_SuppressedTestThatPassed_PrintsYellowWarning()
+    {
+        var results = new List<ProcessedResult>
+        {
+            new() { CheckId = "test1", Outcome = TestOutcome.Pass, ExecutionTime = "1s", QueryText = "" }
+        };
+        var suppressed = new HashSet<string> { "test1" };
+
+        var output = CaptureConsoleOutput(() => ConsoleRenderer.Render(results, suppressed));
+
+        Assert.Contains("Warning: test1 is suppressed but passed. Consider removing it from the suppression list.", output);
+    }
+
+    [Fact]
+    public void Render_SuppressedTestThatFailed_DoesNotPrintWarning()
+    {
+        var results = new List<ProcessedResult>
+        {
+            new() { CheckId = "test1", Outcome = TestOutcome.Suppressed, ExecutionTime = "1s", QueryText = "" }
+        };
+        var suppressed = new HashSet<string> { "test1" };
+
+        var output = CaptureConsoleOutput(() => ConsoleRenderer.Render(results, suppressed));
+
+        Assert.DoesNotContain("Warning:", output);
+    }
+
+    [Fact]
+    public void Render_PassingTestNotSuppressed_DoesNotPrintWarning()
+    {
+        var results = new List<ProcessedResult>
+        {
+            new() { CheckId = "test1", Outcome = TestOutcome.Pass, ExecutionTime = "1s", QueryText = "" }
+        };
+        var suppressed = new HashSet<string>();
+
+        var output = CaptureConsoleOutput(() => ConsoleRenderer.Render(results, suppressed));
+
+        Assert.DoesNotContain("Warning:", output);
+    }
+
+    [Fact]
+    public void Render_MultipleSuppressedPasses_PrintsWarningForEach()
+    {
+        var results = new List<ProcessedResult>
+        {
+            new() { CheckId = "test1", Outcome = TestOutcome.Pass, ExecutionTime = "1s", QueryText = "" },
+            new() { CheckId = "test2", Outcome = TestOutcome.Pass, ExecutionTime = "1s", QueryText = "" },
+            new() { CheckId = "test3", Outcome = TestOutcome.Fail, ExecutionTime = "1s", QueryText = "SELECT 1" }
+        };
+        var suppressed = new HashSet<string> { "test1", "test2" };
+
+        var output = CaptureConsoleOutput(() => ConsoleRenderer.Render(results, suppressed));
+
+        Assert.Contains("Warning: test1 is suppressed but passed.", output);
+        Assert.Contains("Warning: test2 is suppressed but passed.", output);
+    }
+
+    private static string CaptureConsoleOutput(Action action)
+    {
+        var originalOut = Console.Out;
+        using var writer = new StringWriter();
+        Console.SetOut(writer);
+        try
+        {
+            action();
+            return writer.ToString();
+        }
+        finally
+        {
+            Console.SetOut(originalOut);
+        }
+    }
 }
