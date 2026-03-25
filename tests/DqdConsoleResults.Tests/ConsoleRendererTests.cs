@@ -41,7 +41,7 @@ public class ConsoleRendererTests
     {
         var results = new List<ProcessedResult>
         {
-            new() { CheckId = "test1", Outcome = TestOutcome.Pass, ExecutionTime = "1s", QueryText = "" }
+            new() { CheckId = "test1", Outcome = TestOutcome.Pass, ExecutionTime = "1s", QueryText = "", PctViolatedRows = 0, ThresholdValue = 0 }
         };
         var suppressed = new HashSet<string> { "test1" };
 
@@ -55,7 +55,7 @@ public class ConsoleRendererTests
     {
         var results = new List<ProcessedResult>
         {
-            new() { CheckId = "test1", Outcome = TestOutcome.Suppressed, ExecutionTime = "1s", QueryText = "" }
+            new() { CheckId = "test1", Outcome = TestOutcome.Suppressed, ExecutionTime = "1s", QueryText = "", PctViolatedRows = 0, ThresholdValue = 0 }
         };
         var suppressed = new HashSet<string> { "test1" };
 
@@ -69,7 +69,7 @@ public class ConsoleRendererTests
     {
         var results = new List<ProcessedResult>
         {
-            new() { CheckId = "test1", Outcome = TestOutcome.Pass, ExecutionTime = "1s", QueryText = "" }
+            new() { CheckId = "test1", Outcome = TestOutcome.Pass, ExecutionTime = "1s", QueryText = "", PctViolatedRows = 0, ThresholdValue = 0 }
         };
         var suppressed = new HashSet<string>();
 
@@ -83,9 +83,9 @@ public class ConsoleRendererTests
     {
         var results = new List<ProcessedResult>
         {
-            new() { CheckId = "test1", Outcome = TestOutcome.Pass, ExecutionTime = "1s", QueryText = "" },
-            new() { CheckId = "test2", Outcome = TestOutcome.Pass, ExecutionTime = "1s", QueryText = "" },
-            new() { CheckId = "test3", Outcome = TestOutcome.Fail, ExecutionTime = "1s", QueryText = "SELECT 1" }
+            new() { CheckId = "test1", Outcome = TestOutcome.Pass, ExecutionTime = "1s", QueryText = "", PctViolatedRows = 0, ThresholdValue = 0 },
+            new() { CheckId = "test2", Outcome = TestOutcome.Pass, ExecutionTime = "1s", QueryText = "", PctViolatedRows = 0, ThresholdValue = 0 },
+            new() { CheckId = "test3", Outcome = TestOutcome.Fail, ExecutionTime = "1s", QueryText = "SELECT 1", PctViolatedRows = 0, ThresholdValue = 0 }
         };
         var suppressed = new HashSet<string> { "test1", "test2" };
 

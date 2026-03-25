@@ -58,6 +58,9 @@ public class CheckResult
     [JsonProperty("checkId")]
     public string CheckId { get; set; } = string.Empty;
 
+    [JsonProperty("thresholdValue")]
+    public double ThresholdValue { get; set; }
+
     [JsonProperty("failed")]
     public int Failed { get; set; }
 

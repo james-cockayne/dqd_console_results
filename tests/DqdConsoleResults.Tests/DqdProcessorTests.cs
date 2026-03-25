@@ -102,8 +102,8 @@ public class DqdProcessorTests
     {
         var results = new List<ProcessedResult>
         {
-            new() { CheckId = "test1", Outcome = TestOutcome.Pass, ExecutionTime = "1s", QueryText = "" },
-            new() { CheckId = "test2", Outcome = TestOutcome.Fail, ExecutionTime = "1s", QueryText = "" }
+            new() { CheckId = "test1", Outcome = TestOutcome.Pass, ExecutionTime = "1s", QueryText = "", PctViolatedRows = 0, ThresholdValue = 0 },
+            new() { CheckId = "test2", Outcome = TestOutcome.Fail, ExecutionTime = "1s", QueryText = "", PctViolatedRows = 0, ThresholdValue = 0 }
         };
 
         Assert.True(DqdProcessor.HasNonSuppressedFailures(results));
@@ -114,8 +114,8 @@ public class DqdProcessorTests
     {
         var results = new List<ProcessedResult>
         {
-            new() { CheckId = "test1", Outcome = TestOutcome.Pass, ExecutionTime = "1s", QueryText = "" },
-            new() { CheckId = "test2", Outcome = TestOutcome.Suppressed, ExecutionTime = "1s", QueryText = "" }
+            new() { CheckId = "test1", Outcome = TestOutcome.Pass, ExecutionTime = "1s", QueryText = "", PctViolatedRows = 0, ThresholdValue = 0 },
+            new() { CheckId = "test2", Outcome = TestOutcome.Suppressed, ExecutionTime = "1s", QueryText = "", PctViolatedRows = 0, ThresholdValue = 0 }
         };
 
         Assert.False(DqdProcessor.HasNonSuppressedFailures(results));
@@ -126,7 +126,7 @@ public class DqdProcessorTests
     {
         var results = new List<ProcessedResult>
         {
-            new() { CheckId = "test1", Outcome = TestOutcome.Pass, ExecutionTime = "1s", QueryText = "" }
+            new() { CheckId = "test1", Outcome = TestOutcome.Pass, ExecutionTime = "1s", QueryText = "", PctViolatedRows = 0, ThresholdValue = 0 }
         };
 
         Assert.False(DqdProcessor.HasNonSuppressedFailures(results));

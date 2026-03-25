@@ -6,12 +6,27 @@ public static class ConsoleRenderer
 
     public static void Render(List<ProcessedResult> results, HashSet<string> suppressedTests)
     {
+        RenderSuppressedList(results);
         RenderTestList(results);
         RenderFailureDetails(results);
         RenderSuppressedPassWarnings(results, suppressedTests);
     }
 
     private static readonly int MaxStatusLength = new[] { "SUCCESS", "FAIL", "SKIP", "SUPPRESSED" }.Max(s => s.Length);
+
+    private static void RenderSuppressedList(List<ProcessedResult> results)
+    {
+        var suppressed = results.Where(r => r.Outcome == TestOutcome.Suppressed).ToList();
+        if (suppressed.Count == 0)
+            return;
+
+        Console.WriteLine("Suppressed Tests:");
+        foreach (var result in suppressed)
+        {
+            Console.WriteLine($"  {result.CheckId}");
+        }
+        Console.WriteLine();
+    }
 
     private static void RenderTestList(List<ProcessedResult> results)
     {
@@ -21,8 +36,15 @@ public static class ConsoleRenderer
             var result = results[i];
             string status = FormatStatus(result.Outcome);
             string paddedStatus = status.PadRight(MaxStatusLength);
+            string violationInfo = "";
+            if (result.Outcome != TestOutcome.Skip)
+            {
+                string violationPct = (result.PctViolatedRows * 100).ToString("F2");
+                string thresholdPct = result.ThresholdValue.ToString("F2");
+                violationInfo = $" violation rate:{violationPct}% threshold:{thresholdPct}%";
+            }
             string prefix = $"{i + 1} of {total} {result.CheckId} ";
-            string suffix = $" [{paddedStatus} in {result.ExecutionTime}]";
+            string suffix = $" [{paddedStatus} in {result.ExecutionTime}{violationInfo}]";
             int dotsNeeded = LineWidth - prefix.Length - suffix.Length;
             string dots = dotsNeeded > 0 ? new string('.', dotsNeeded) : "..";
 
@@ -30,7 +52,7 @@ public static class ConsoleRenderer
             Console.Write(dots);
             Console.Write(" [");
             WriteColoredText(paddedStatus, result.Outcome);
-            Console.WriteLine($" in {result.ExecutionTime}]");
+            Console.WriteLine($" in {result.ExecutionTime}{violationInfo}]");
         }
     }
 
@@ -45,9 +67,12 @@ public static class ConsoleRenderer
 
         foreach (var failure in failures)
         {
+            string violationPct = (failure.PctViolatedRows * 100).ToString("F2");
+            string thresholdPct = failure.ThresholdValue.ToString("F2");
             Console.WriteLine();
             WriteColoredText("FAIL", TestOutcome.Fail);
             Console.WriteLine($": {failure.CheckId}");
+            Console.WriteLine($"Violation Rate: {violationPct}%. Threshold: {thresholdPct}%");
             Console.WriteLine(FormatSql(failure.QueryText));
         }
     }

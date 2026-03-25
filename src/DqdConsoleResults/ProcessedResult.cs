@@ -6,4 +6,6 @@ public class ProcessedResult
     public required TestOutcome Outcome { get; init; }
     public required string ExecutionTime { get; init; }
     public required string QueryText { get; init; }
+    public required double PctViolatedRows { get; init; }
+    public required double ThresholdValue { get; init; }
 }

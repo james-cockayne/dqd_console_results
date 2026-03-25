@@ -34,7 +34,9 @@ public static class DqdProcessor
                 CheckId = check.CheckId,
                 Outcome = outcome,
                 ExecutionTime = check.ExecutionTime,
-                QueryText = check.QueryText
+                QueryText = check.QueryText,
+                PctViolatedRows = check.PctViolatedRows,
+                ThresholdValue = check.ThresholdValue
             };
         }).ToList();
     }
