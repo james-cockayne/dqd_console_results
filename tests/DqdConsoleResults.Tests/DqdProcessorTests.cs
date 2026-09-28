@@ -172,6 +172,15 @@ public class DqdProcessorTests
         Assert.Equal("SELECT 1", results.CheckResults[0].QueryText);
     }
 
+    [Theory]
+    [InlineData("{}")]
+    [InlineData("{\"CheckResults\":null}")]
+    public void Parse_MissingOrNullCheckResults_Throws(string json)
+    {
+        // A wrong input file must not be interpreted as a successful run with zero checks.
+        Assert.Throws<Newtonsoft.Json.JsonSerializationException>(() => DqdProcessor.Parse(json));
+    }
+
     [Fact]
     public void Parse_InvalidJson_Throws()
     {

@@ -4,7 +4,7 @@ namespace DqdConsoleResults;
 
 public class DqdResults
 {
-    [JsonProperty("CheckResults")]
+    [JsonProperty("CheckResults", Required = Required.Always)]
     public List<CheckResult> CheckResults { get; set; } = new();
 
     [JsonProperty("Metadata")]
